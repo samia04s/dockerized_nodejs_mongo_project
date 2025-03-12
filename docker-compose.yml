@@ -1,0 +1,35 @@
+services:
+  backend:
+    build: .
+    container_name: node-mongo-docker-backend
+    ports:
+      - "6010:6010"
+    depends_on:
+      - mongo
+    networks:
+      - my_network
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo_container
+    ports:
+      - "27017:27017"  # FIXED: Using default MongoDB port
+    networks:
+      - my_network
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongo_express_container
+    ports:
+      - "8085:8081"  # Ensure no conflict with existing services
+    depends_on:
+      - mongo
+    networks:
+      - my_network
+
+networks:
+  my_network:
+    driver: bridge
+
+
+
